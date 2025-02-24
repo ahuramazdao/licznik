@@ -3,41 +3,6 @@ function initKlubCountdown() {
   // Tworzymy strukturę HTML
   const countdownEl = document.getElementById('klub-countdown-timer');
   
-  // Wypełniamy HTML dla licznika
-  countdownEl.innerHTML = `
-    <div class="countdown-background"></div>
-    <div class="countdown-container">
-      <div class="countdown-title">Do końca naboru do Programu KLUB pozostało:</div>
-      <div class="countdown-timer">
-        <div class="countdown-unit">
-          <div id="klub-days" class="countdown-value">00</div>
-          <div class="countdown-label">dni</div>
-        </div>
-        
-        <div class="countdown-separator">:</div>
-        
-        <div class="countdown-unit">
-          <div id="klub-hours" class="countdown-value">00</div>
-          <div class="countdown-label">godz</div>
-        </div>
-        
-        <div class="countdown-separator">:</div>
-        
-        <div class="countdown-unit">
-          <div id="klub-minutes" class="countdown-value">00</div>
-          <div class="countdown-label">min</div>
-        </div>
-        
-        <div class="countdown-separator">:</div>
-        
-        <div class="countdown-unit">
-          <div id="klub-seconds" class="countdown-value">00</div>
-          <div class="countdown-label">sek</div>
-        </div>
-      </div>
-    </div>
-  `;
-  
   // Funkcja formatująca liczby
   function formatNumber(num) {
     return num < 10 ? "0" + num : num;
@@ -51,26 +16,51 @@ function initKlubCountdown() {
     const difference = targetDate - now;
     
     if (difference <= 0) {
-      // Czas minął
-      document.getElementById('klub-days').textContent = '00';
-      document.getElementById('klub-hours').textContent = '00';
-      document.getElementById('klub-minutes').textContent = '00';
-      document.getElementById('klub-seconds').textContent = '00';
+      // Czas minął - wyświetl komunikat o zakończeniu naboru
+      countdownEl.innerHTML = `
+        <div class="countdown-background"></div>
+        <div class="countdown-container">
+          <div class="countdown-ended">Nabór do Programu KLUB został zakończony</div>
+        </div>
+      `;
       clearInterval(timerInterval);
       return;
     }
     
-    // Obliczanie dni, godzin, minut i sekund
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-    
-    // Aktualizacja elementów na stronie
-    document.getElementById('klub-days').textContent = formatNumber(days);
-    document.getElementById('klub-hours').textContent = formatNumber(hours);
-    document.getElementById('klub-minutes').textContent = formatNumber(minutes);
-    document.getElementById('klub-seconds').textContent = formatNumber(seconds);
+    // Jeśli czas nie minął, zbuduj standardowy licznik
+    countdownEl.innerHTML = `
+      <div class="countdown-background"></div>
+      <div class="countdown-container">
+        <div class="countdown-title">Do końca naboru do Programu KLUB pozostało:</div>
+        <div class="countdown-timer">
+          <div class="countdown-unit">
+            <div id="klub-days" class="countdown-value">${formatNumber(Math.floor(difference / (1000 * 60 * 60 * 24)))}</div>
+            <div class="countdown-label">dni</div>
+          </div>
+          
+          <div class="countdown-separator">:</div>
+          
+          <div class="countdown-unit">
+            <div id="klub-hours" class="countdown-value">${formatNumber(Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))}</div>
+            <div class="countdown-label">godz</div>
+          </div>
+          
+          <div class="countdown-separator">:</div>
+          
+          <div class="countdown-unit">
+            <div id="klub-minutes" class="countdown-value">${formatNumber(Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)))}</div>
+            <div class="countdown-label">min</div>
+          </div>
+          
+          <div class="countdown-separator">:</div>
+          
+          <div class="countdown-unit">
+            <div id="klub-seconds" class="countdown-value">${formatNumber(Math.floor((difference % (1000 * 60)) / 1000))}</div>
+            <div class="countdown-label">sek</div>
+          </div>
+        </div>
+      </div>
+    `;
   }
   
   // Pierwsze wywołanie funkcji
