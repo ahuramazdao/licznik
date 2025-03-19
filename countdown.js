@@ -10,8 +10,8 @@ function initKlubCountdown() {
   
   // Funkcja aktualizująca licznik
   function updateCountdown() {
-    // Data docelowa: 28 marca 2025, 24:00 (czyli 29 marca, 00:00)
-    const targetDate = new Date('2025-03-29T00:00:00+01:00');
+    // Data docelowa: 20 marca 2025, 23:59 (czyli 29 marca, 00:00)
+    const targetDate = new Date('2025-03-20T23:59:00+01:00');
     const now = new Date();
     const difference = targetDate - now;
     
